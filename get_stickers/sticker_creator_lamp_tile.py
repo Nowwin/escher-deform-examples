@@ -6,10 +6,10 @@ A4_WIDTH_PX  = 2480
 A4_HEIGHT_PX = 3508
 DPI_HINT = 300  # not used directly, just a sanity reminder
 
-IMAGE_PATH_1 = "../build/exports/fish1_deformed_20250811_022401.png"
-IMAGE_PATH_2 = "../build/exports/fish2_deformed_20250811_022401.png"
-IMAGE_PATH_3 = "../build/exports/fish3_deformed_20250811_022401.png"
-IMAGE_PATH_4 = "../build/exports/fish4_deformed_20250811_022401.png"
+IMAGE_PATH_1 = "../build/exports/fish1_deformed_20250811_030553.png"
+IMAGE_PATH_2 = "../build/exports/fish2_deformed_20250811_030553.png"
+IMAGE_PATH_3 = "../build/exports/fish3_deformed_20250811_030553.png"
+IMAGE_PATH_4 = "../build/exports/fish4_deformed_20250811_030553.png"
 HEADER_PATH  = "../header/header.jpeg"
 OUTPUT_PATH  = "sticker_sheet_lamp_tile.png"
 

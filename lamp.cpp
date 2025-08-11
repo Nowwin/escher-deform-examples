@@ -919,13 +919,18 @@ int main(int argc, char* argv[]) {
                         fs::path fish2_p = outdir / ("fish2_deformed_" + ts + ".png");
                         fs::path fish3_p = outdir / ("fish3_deformed_" + ts + ".png");
                         fs::path fish4_p = outdir / ("fish4_deformed_" + ts + ".png");
-                        fs::path unit_p  = outdir / ("unit_deformed_"  + ts + ".png");
+                        fs::path pattern_p  = outdir / ("pattern_lamp_deformed_"  + ts + ".png");
+
+                        const int minus_w = 100, minus_h = 100;
+                        int w = std::max(1, pattern.cols - minus_w);
+                        int h = std::max(1, pattern.rows - minus_h);
+                        cv::Mat pattern_cropped = pattern(cv::Rect(0, 0, w, h)).clone();
 
                         bool ok1 = save_png_lossless(fish1, fish1_p.string());
                         bool ok2 = save_png_lossless(fish2, fish2_p.string());
                         bool ok3 = save_png_lossless(fish3, fish3_p.string());
                         bool ok4 = save_png_lossless(fish4, fish4_p.string());
-                        bool ok5 = save_png_lossless(unit,  unit_p.string());
+                        bool ok5 = save_png_lossless(pattern_cropped,  pattern_p.string());
 
                         if (ok1 && ok2 && ok3 && ok4 && ok5) {
                             std::cout << "[Save] Done!\n";

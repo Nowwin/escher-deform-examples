@@ -6,8 +6,8 @@ A4_WIDTH_PX  = 2480
 A4_HEIGHT_PX = 3508
 DPI_HINT = 300  # not used directly, just a sanity reminder
 
-IMAGE_PATH_1 = "../build/exports/Monster1_deformed_20250811_005335.png"
-IMAGE_PATH_2 = "../build/exports/Monster2_deformed_20250811_005335.png"
+IMAGE_PATH_1 = "../build/exports/Anteater1_deformed_20250811_034125.png"
+IMAGE_PATH_2 = "../build/exports/Anteater2_deformed_20250811_034125.png"
 HEADER_PATH  = "../header/header.jpeg"
 OUTPUT_PATH  = "sticker_sheet_anteater_tile.png"
 

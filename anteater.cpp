@@ -52,9 +52,41 @@ static bool ensure_dir(const fs::path& p) {
     return fs::create_directories(p, ec);
 }
 
-static bool save_png_lossless(const cv::Mat& img, const std::string& path) {
+// Save PNG (lossless). If offx/offy != 0, pad with transparent pixels and
+// place the image at (offx, offy) inside the new canvas.
+static bool save_png_lossless(const cv::Mat& img, const std::string& path,
+                              int offx = 0, int offy = 0)
+{
     std::vector<int> params = { cv::IMWRITE_PNG_COMPRESSION, 3 };
-    return cv::imwrite(path, img, params);
+
+    // Fast path: no offset
+    if (offx == 0 && offy == 0) {
+        return cv::imwrite(path, img, params);
+    }
+
+    // Ensure 4-channel so padding is transparent
+    cv::Mat src;
+    if (img.channels() == 4) {
+        src = img;
+    } else if (img.channels() == 3) {
+        cv::cvtColor(img, src, cv::COLOR_BGR2BGRA);
+    } else if (img.channels() == 1) {
+        cv::cvtColor(img, src, cv::COLOR_GRAY2BGRA);
+    } else {
+        src = img.clone();
+    }
+
+    // Compute padding for positive/negative offsets
+    int left   = std::max(offx, 0);
+    int top    = std::max(offy, 0);
+    int right  = std::max(-offx, 0);
+    int bottom = std::max(-offy, 0);
+
+    cv::Mat canvas(src.rows + top + bottom, src.cols + left + right,
+                   src.type(), cv::Scalar(0, 0, 0, 0)); // transparent BG
+
+    src.copyTo(canvas(cv::Rect(left, top, src.cols, src.rows)));
+    return cv::imwrite(path, canvas, params);
 }
 
 
@@ -369,47 +401,66 @@ cv::Mat create_base_unit(
     return unit;
 }
 
-cv::Mat generate_tiled_pattern(const cv::Mat& unit, double scale = 2.0, int repeats_x = 10, int repeats_y = 10) {
-    int crop_width = WINDOW_WIDTH;
+cv::Mat generate_tiled_pattern(const cv::Mat& unit,
+                               double scale = 2.0,
+                               int repeats_x = 10,
+                               int repeats_y = 10,
+                               bool crop_and_resize = true)                // <— new flag (default true)
+{
+    int crop_width  = WINDOW_WIDTH;
     int crop_height = WINDOW_HEIGHT;
 
-    int unit_width = unit.cols;
+    int unit_width  = unit.cols;
     int unit_height = unit.rows;
 
-    int stride_x = unit_width + SPACING_X;
+    int stride_x = unit_width  + SPACING_X;
     int stride_y = unit_height + SPACING_Y;
 
     int offset_x = 2000;
     int offset_y = 4000;
 
-    int total_width = stride_x * repeats_x + offset_x;
+    int total_width  = stride_x * repeats_x + offset_x;
     int total_height = stride_y * repeats_y + offset_y;
 
     cv::Mat pattern(total_height, total_width, CV_8UC4, cv::Scalar(0, 0, 0, 0));
 
-    std::vector<cv::Mat> channels;
-    if (unit.channels() != 4) {
-        std::cout << "[Error] Unit image missing alpha channel\n";
+    // Use unit's alpha as mask if present
+    cv::Mat alpha;
+    if (unit.channels() == 4) {
+        std::vector<cv::Mat> ch;
+        cv::split(unit, ch);
+        alpha = ch[3];
     }
-    cv::split(unit, channels);
-    cv::Mat alpha = channels[3];
 
     for (int y = 0; y < repeats_y; ++y) {
         for (int x = 0; x < repeats_x; ++x) {
             int pos_x = x * stride_x;
             int pos_y = y * stride_y;
 
-            if (pos_x < 0 || pos_y < 0 || pos_x + unit_width > pattern.cols || pos_y + unit_height > pattern.rows)
+            if (pos_x < 0 || pos_y < 0 ||
+                pos_x + unit_width > pattern.cols ||
+                pos_y + unit_height > pattern.rows) {
                 continue;
+            }
 
             cv::Rect roi(pos_x, pos_y, unit_width, unit_height);
-            unit.copyTo(pattern(roi), alpha);
+            if (!alpha.empty()) {
+                unit.copyTo(pattern(roi), alpha);
+            } else {
+                unit.copyTo(pattern(roi));
+            }
         }
     }
 
+    // If the caller wants the raw, full pattern, return it now.
+    if (!crop_and_resize) {
+        return pattern;
+    }
+
+    // Otherwise: resize to a target width and center-crop to the window.
     cv::Mat resized_pattern;
-    int target_width = std::min(std::max(1.0, scale), 10.0) * WINDOW_WIDTH;
-    int target_height = static_cast<int>(target_width * (float(pattern.rows) / pattern.cols));
+    int target_width  = static_cast<int>(std::clamp(scale, 1.0, 10.0) * WINDOW_WIDTH);
+    int target_height = static_cast<int>(target_width * (static_cast<float>(pattern.rows) / pattern.cols));
     cv::resize(pattern, resized_pattern, cv::Size(target_width, target_height), 0, 0, cv::INTER_AREA);
 
     int crop_x = std::max(0, (resized_pattern.cols - crop_width) / 2);
@@ -418,9 +469,7 @@ cv::Mat generate_tiled_pattern(const cv::Mat& unit, double scale = 2.0, int repe
     crop_y = std::min(crop_y, resized_pattern.rows - crop_height);
 
     cv::Rect crop_rect(crop_x, crop_y, crop_width, crop_height);
-
-    cv::Mat visible = resized_pattern(crop_rect);
-    return visible;
+    return resized_pattern(crop_rect).clone();
 }
 
 // ===================== SDL Helpers =====================
@@ -634,21 +683,26 @@ int main(int argc, char* argv[]) {
                     } else {
                         std::string ts = now_timestamp();
 
-                        fs::path blue_path = outdir / ("Monster1_deformed_" + ts + ".png");
-                        fs::path red_path  = outdir / ("Monster2_deformed_"  + ts + ".png");
-                        fs::path unit_path = outdir / ("unit_deformed_"      + ts + ".png");
+                        fs::path blue_path = outdir / ("Anteater1_deformed_" + ts + ".png");
+                        fs::path red_path  = outdir / ("Anteater2_deformed_"  + ts + ".png");
+                        fs::path pattern_path = outdir / ("pattern_anteater_deformed_" + ts + ".png");
 
                         cv::Mat red_flipped;
                         cv::flip(red, red_flipped, 1);
 
+                        const int minus_w = 100, minus_h = 100;
+                        int w = std::max(1, pattern.cols - minus_w);
+                        int h = std::max(1, pattern.rows - minus_h);
+                        cv::Mat pattern_cropped = pattern(cv::Rect(0, 0, w, h)).clone();
+
                         bool ok1 = save_png_lossless(blue, blue_path.string());
                         bool ok2 = save_png_lossless(red_flipped, red_path.string());
-                        bool ok3 = save_png_lossless(unit, unit_path.string());
+                        bool ok3 = save_png_lossless(pattern_cropped, pattern_path.string());
 
                         if (ok1 && ok2 && ok3) {
                             std::cout << "[Save] Completed!:\n";
                         } else {
-                            std::cerr << "[Save] Failed to save one or both or unit tiles.\n";
+                            std::cerr << "[Save] Failed to save one or both or pattern.\n";
                         }
                     }
                 }
