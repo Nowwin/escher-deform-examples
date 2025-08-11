@@ -55,12 +55,32 @@ This builds two executables: `anteater` and `lamp`.
 
 ---
 
-## Repo Layout
+## Sticker sheet scripts (super quick start)
+
+**Requires:** Python 3 and Pillow  
+Install once:
+```bash
+pip install pillow
+# Anteater — tiles
+python3 get_stickers/sticker_creator_anteater_tile.py
+
+# Anteater — full-page pattern
+python3 get_stickers/sticker_creator_anteater_pattern.py
+
+# Lamp — tiles
+python3 get_stickers/sticker_creator_lamp_tile.py
+
+# Lamp — full-page pattern
+python3 get_stickers/sticker_creator_lamp_pattern.py
+```
+
+## Important files and folders
 
 * `anteater.cpp` — example 1
 * `lamp.cpp` — example 2
 * `CMakeLists.txt` — builds both targets
-* `exports/` — created automatically on first save
+* `build/exports/` — created automatically on first save
+* `get_stickers/` — contains scripts for creating the stickers
 
 
 ## Bibliography
