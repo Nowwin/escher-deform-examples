@@ -6,7 +6,7 @@ This is a demo code for Emerging Technologies, Technical Paper - "Escher Tile De
 
 ---
 
-## TL;DR (Build)
+## Build Instructions
 
 ```bash
 mkdir build && cd build
@@ -41,7 +41,7 @@ This builds two executables: `anteater` and `lamp`.
 ### 2) `lamp`
 
 ```bash
-./lamp ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets_background/living_room.png
+./lamp ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_yellow_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_yellow_adjusted.png ../assets_background/living_room.png
 ```
 
 ---
