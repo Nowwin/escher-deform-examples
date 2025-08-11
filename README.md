@@ -1,6 +1,8 @@
-# escher-deform-examples
+# escher-tile-deformer-examples
 
 Minimal C++ demos for Escher-style tile deformation using a closed-form vector field.
+
+This is a demo code for Emerging Technologies, Technical Paper - "Escher Tile Deformation via Closed-Form Solution" presented in SIGGRAPH 2025. [Event Link](https://s2025.conference-schedule.org/presentation/?id=misc_210&sess=sess592)
 
 ---
 
@@ -12,7 +14,7 @@ cmake ..
 make
 ```
 
-This builds two executables: `anteater` (xx pattern) and `lamp` (4*2 pattern).
+This builds two executables: `anteater` and `lamp`.
 
 ---
 
@@ -59,3 +61,15 @@ This builds two executables: `anteater` (xx pattern) and `lamp` (4*2 pattern).
 * `lamp.cpp` — 4-tile OpenMP demo
 * `CMakeLists.txt` — builds both targets
 * `exports/` — created automatically on first save
+
+@inproceedings{Chen_2025, series={SIGGRAPH Conference Papers ’25},
+  title={Escher Tile Deformation via Closed-Form Solution},
+  url={http://dx.doi.org/10.1145/3721238.3730681},
+  DOI={10.1145/3721238.3730681},
+  booktitle={Proceedings of the Special Interest Group on Computer Graphics and Interactive Techniques Conference Conference Papers},
+  publisher={ACM},
+  author={Chen, Crane He and Kim, Vladimir},
+  year={2025},
+  month=jul, pages={1–11},
+  collection={SIGGRAPH Conference Papers ’25}
+}
