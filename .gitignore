@@ -1,0 +1,42 @@
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+.eggs/
+
+# ---- C++ / C ----
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.a
+*.lib
+
+# ---- Build folders (anywhere in repo) ----
+**/build/
+
+# ---- Logs / Temp ----
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.iml
+
+# ---- Misc ----
+.env
+
