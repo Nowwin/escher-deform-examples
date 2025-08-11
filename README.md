@@ -32,13 +32,13 @@ This builds two executables: `anteater` and `lamp`.
 
 ## How to Run
 
-### 1) `anteater` — xx example
+### 1) `anteater`
 
 ```bash
 ./anteater ../assets/anteater1.png ../assets/anteater2.png ../assets_background/bus.png
 ```
 
-### 2) `lamp` — 4*2* example
+### 2) `lamp`
 
 ```bash
 ./lamp ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets/Cartoon_25_lamp_blue_adjusted.png ../assets_background/living_room.png
@@ -57,11 +57,14 @@ This builds two executables: `anteater` and `lamp`.
 
 ## Repo Layout
 
-* `anteater.cpp` — 2-tile demo
-* `lamp.cpp` — 4-tile OpenMP demo
+* `anteater.cpp` — example 1
+* `lamp.cpp` — example 2
 * `CMakeLists.txt` — builds both targets
 * `exports/` — created automatically on first save
 
+
+## Bibliography
+```
 @inproceedings{Chen_2025, series={SIGGRAPH Conference Papers ’25},
   title={Escher Tile Deformation via Closed-Form Solution},
   url={http://dx.doi.org/10.1145/3721238.3730681},
@@ -73,3 +76,4 @@ This builds two executables: `anteater` and `lamp`.
   month=jul, pages={1–11},
   collection={SIGGRAPH Conference Papers ’25}
 }
+```
