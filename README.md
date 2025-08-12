@@ -57,22 +57,31 @@ This builds two executables: `anteater` and `lamp`.
 
 ## Sticker sheet scripts (super quick start)
 
-**Requires:** Python 3 and Pillow  
-Install once:
+# How to run the sticker scripts
+
 ```bash
+# 1) Install once
 pip install pillow
-# Anteater — tiles
-python3 get_stickers/sticker_creator_anteater_tile.py
 
-# Anteater — full-page pattern
-python3 get_stickers/sticker_creator_anteater_pattern.py
+# 2) From repo root
+cd get_scripts
 
-# Lamp — tiles
-python3 get_stickers/sticker_creator_lamp_tile.py
+# 3) Anteater — 2×3 sheet (uses <prefix>1_deformed_<ts>.png and <prefix>2_deformed_<ts>.png)
+python sticker_creator_anteater_tile_big.py --in 20250811_034125
 
-# Lamp — full-page pattern
-python3 get_stickers/sticker_creator_lamp_pattern.py
+# 4) Lamp — 4×4 sheet (uses <prefix>{1,2,3,4}_deformed_<ts>.png)
+python sticker_creator_lamp_tile_big.py --in 20250811_030553
 ```
+
+### Where the results go
+
+* Images are written to: `build/exports/`
+
+  * `sticker_sheet_anteater_<timestamp>.png`
+  * `sticker_sheet_lamp_<timestamp>.png`
+
+*(Both scripts expect source PNGs in `build/exports/` and a header at `header/header.jpeg`.)*
+
 
 ## Important files and folders
 
