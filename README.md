@@ -53,11 +53,8 @@ This builds two executables: `anteater` and `lamp`.
 * **Save**: press **`S`** → writes PNGs to `exports/` with a timestamp
   (deformed tiles and unit image)
 
----
 
-## Sticker sheet scripts (super quick start)
-
-# How to run the sticker scripts
+##  How to run the sticker scripts
 
 ```bash
 pip install pillow
