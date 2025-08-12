@@ -15,7 +15,7 @@ const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
 const int HORIZONTAL_SPACING = -49;
 const int VERTICAL_SPACING = -1023;
-const int SPACING_X = -900 - 236;
+const int SPACING_X = -900 - 238;
 const int SPACING_Y = -3472;
 
 int g_unit_width = 0;
