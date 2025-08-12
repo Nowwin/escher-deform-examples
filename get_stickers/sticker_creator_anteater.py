@@ -14,7 +14,7 @@ HEADER_PATH  = "../header/header.jpeg"
 OUTPUT_PATH  = "sticker_sheet_half_pattern_half_tiles.png"
 
 # ===================== Layout =====================
-MARGIN_X = 0
+MARGIN_X = 40
 MARGIN_BOTTOM = 0
 HEADER_MARGIN_BOTTOM = 30
 HEADER_MAX_FRAC = 0.22
