@@ -60,16 +60,15 @@ This builds two executables: `anteater` and `lamp`.
 # How to run the sticker scripts
 
 ```bash
-# 1) Install once
 pip install pillow
 
-# 2) From repo root
-cd get_scripts
+# From repo root
+cd get_stickets
 
-# 3) Anteater — 2×3 sheet (uses <prefix>1_deformed_<ts>.png and <prefix>2_deformed_<ts>.png)
+# For Anteater
 python sticker_creator_anteater_tile_big.py --in 20250811_034125
 
-# 4) Lamp — 4×4 sheet (uses <prefix>{1,2,3,4}_deformed_<ts>.png)
+# For Lamp
 python sticker_creator_lamp_tile_big.py --in 20250811_030553
 ```
 
