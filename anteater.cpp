@@ -404,7 +404,7 @@ cv::Mat create_base_unit(
 cv::Mat generate_tiled_pattern(const cv::Mat& unit,
                                double scale = 2.0,
                                int repeats_x = 10,
-                               int repeats_y = 10,
+                               int repeats_y = 11,
                                bool crop_and_resize = true)                // <— new flag (default true)
 {
     int crop_width  = WINDOW_WIDTH;
